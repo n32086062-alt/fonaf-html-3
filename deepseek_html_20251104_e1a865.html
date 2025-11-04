@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FNAF 3 - Fazbear's Fright</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+            user-select: none;
+        }
+
+        body {
+            background-color: #000;
+            color: #8a0303;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(120, 0, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(80, 0, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(60, 0, 0, 0.1) 0%, transparent 50%);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            height: 95vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            background: #0a0a0a;
+            border: 2px solid #3a1f1f;
+            box-shadow: 0 0 30px rgba(138, 3, 3, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            text-align: center;
+            padding: 12px;
+            background: linear-gradient(to bottom, #2a0a0a, #1a0505);
+            border-bottom: 2px solid #8a0303;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-shadow: 0 0 10px #ff0000, 0 0 20px #8a0303;
+            letter-spacing: 4px;
+            color: #ff3a3a;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #d4a76a;
+            text-shadow: 0 0 5px #000;
+        }
+
+        .game-area {
+            display: flex;
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .office-view {
+            flex: 3;
+            position: relative;
+            background: 
+                linear-gradient(to bottom, #1a1a1a, #0a0a0a),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" opacity="0.03"><rect width="100" height="100" fill="none" stroke="%238a0303" stroke-width="2"/></svg>');
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .office-top {
+            height: 65%;
+            position: relative;
+            background: 
+                linear-gradient(to bottom, #2a2a2a, #1a1a1a),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" opacity="0.02"><rect width="200" height="200" fill="none" stroke="%235a1a1a" stroke-width="3"/></svg>');
+            border-bottom: 3px solid #3a1f1f;
+        }
+
+        .doorway {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 180px;
+            height: 280px;
+            background: 
+                linear-gradient(to right, #000, #1a1a1a),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" opacity="0.05"><rect width="60" height="60" fill="none" stroke="%238a0303" stroke-width="2"/></svg>');
+            border-left: 5px solid #8a0303;
+            box-shadow: -8px 0 25px rgba(138, 3, 3, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8a0303;
+            font-size: 1.3rem;
+            text-shadow: 0 0 8px #000;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .office-bottom {
+            height: 35%;
+            background: linear-gradient(to top, #2a1a1a, #1a0a0a);
+            border-top: 4px solid #5a3a2a;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .desk-equipment {
+            display: flex;
+            gap: 25px;
+            width: 100%;
+            align-items: flex-end;
+        }
+
+        .main-monitor {
+            width: 380px;
+            height: 240px;
+            background: #111;
+            border: 4px solid #5a5a5a;
+            border-radius: 8px 8px 0 0;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 
+                0 0 15px rgba(0, 0, 0, 0.8),
+                inset 0 0 20px rgba(0, 0, 0, 0.9);
+            position: relative;
+        }
+
+        .monitor-frame {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #333, #222, #333);
+            border-radius: 5px;
+            z-index: -1;
+        }
+
+        .monitor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 8px;
+            background: linear-gradient(to bottom, #3a3a3a, #2a2a2a);
+            border: 1px solid #5a5a5a;
+            margin-bottom: 10px;
+            border-radius: 3px;
+        }
+
+        .monitor-title {
+            font-size: 1rem;
+            color: #d4a76a;
+            text-shadow: 0 0 3px #000;
+        }
+
+        .monitor-status {
+            font-size: 0.8rem;
+            color: #00aa00;
+            text-shadow: 0 0 5px #00aa00;
+        }
+
+        .monitor-screen {
+            flex: 1;
+            background: 
+                linear-gradient(135deg, #001a00 0%, #000d00 100%),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" opacity="0.1"><rect width="20" height="20" fill="none" stroke="%2300ff00" stroke-width="0.5"/></svg>');
+            border: 2px solid #008800;
+            color: #00ff00;
+            padding: 10px;
+            font-size: 0.85rem;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            text-shadow: 0 0 5px #00ff00;
+            box-shadow: 
+                inset 0 0 15px rgba(0, 255, 0, 0.2),
+                0 0 5px rgba(0, 255, 0, 0.3);
+            border-radius: 2px;
+        }
+
+        .monitor-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .control-btn {
+            background: linear-gradient(to bottom, #4a4a4a, #2a2a2a);
+            color: #d4d4d4;
+            border: 1px solid #5a5a5a;
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            text-shadow: 0 0 3px #000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .control-btn:hover {
+            background: linear-gradient(to bottom, #5a5a5a, #3a3a3a);
+            border-color: #7a7a7a;
+        }
+
+        .control-btn:active {
+            background: linear-gradient(to bottom, #2a2a2a, #4a4a4a);
+            transform: translateY(1px);
+        }
+
+        .camera-feed {
+            width: 320px;
+            height: 220px;
+            background: #111;
+            border: 4px solid #5a5a5a;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 
+                0 0 15px rgba(0, 0, 0, 0.8),
+                inset 0 0 20px rgba(0, 0, 0, 0.9);
+            position: relative;
+        }
+
+        .camera-frame {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #333, #222, #333);
+            border-radius: 5px;
+            z-index: -1;
+        }
+
+        .camera-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 10px;
+            background: linear-gradient(to bottom, #3a3a3a, #2a2a2a);
+            border-bottom: 1px solid #5a5a5a;
+        }
+
+        .camera-title {
+            font-size: 1rem;
+            color: #d4a76a;
+            text-shadow: 0 0 3px #000;
+        }
+
+        .camera-status {
+            font-size: 0.8rem;
+            color: #aa0000;
+            text-shadow: 0 0 5px #aa0000;
+        }
+
+        .camera-display {
+            flex: 1;
+            background: 
+                linear-gradient(45deg, #0a1a0a 0%, #1a0a0a 100%),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" opacity="0.05"><rect width="100" height="100" fill="none" stroke="%23555" stroke-width="2"/></svg>');
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8a8a8a;
+            font-size: 1.3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .static {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.15) 0px, rgba(0, 0, 0, 0.15) 1px, transparent 1px, transparent 2px),
+                repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.1) 0px, rgba(0, 0, 0, 0.1) 1px, transparent 1px, transparent 2px);
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        .systems-panel {
+            flex: 1;
+            background: 
+                linear-gradient(to bottom, #1a1a1a, #0a0a0a),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" opacity="0.03"><rect width="100" height="100" fill="none" stroke="%238a0303" stroke-width="2"/></svg>');
+            border-left: 3px solid #3a1f1f;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            box-shadow: inset 5px 0 15px rgba(0, 0, 0, 0.7);
+        }
+
+        .panel-section {
+            background: linear-gradient(to bottom, #2a1a1a, #1a0a0a);
+            border: 2px solid #5a3a2a;
+            border-radius: 6px;
+            padding: 12px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            color: #d4a76a;
+            margin-bottom: 10px;
+            text-align: center;
+            border-bottom: 1px solid #5a3a2a;
+            padding-bottom: 5px;
+            text-shadow: 0 0 3px #000;
+        }
+
+        .vent-status {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .vent-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            border: 1px solid #5a3a2a;
+        }
+
+        .vent-name {
+            font-size: 0.9rem;
+        }
+
+        .vent-indicator {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #00aa00;
+            box-shadow: 0 0 5px #00aa00;
+            transition: all 0.3s;
+        }
+
+        .vent-indicator.breached {
+            background: #aa0000;
+            box-shadow: 0 0 8px #ff0000;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+
+        .audio-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .audio-btn {
+            background: linear-gradient(to bottom, #4a4a4a, #2a2a2a);
+            color: #d4d4d4;
+            border: 1px solid #5a5a5a;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 4px;
+            text-align: center;
+            text-shadow: 0 0 3px #000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .audio-btn:hover {
+            background: linear-gradient(to bottom, #5a5a5a, #3a3a3a);
+            border-color: #7a7a7a;
+        }
+
+        .audio-btn.active {
+            background: linear-gradient(to bottom, #3a6a2a, #2a4a1a);
+            border-color: #5aaa3a;
+            color: #aaffaa;
+            box-shadow: 0 0 10px rgba(100, 255, 100, 0.5);
+        }
+
+        .system-status {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .time-display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .time {
+            font-size: 2.2rem;
+            color: #d4a76a;
+            text-shadow: 0 0 5px #000;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .power-level {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .power-label {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .power-bar {
+            height: 22px;
+            background: linear-gradient(to right, #aa0000, #ff8a00, #00aa00);
+            border-radius: 11px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid #5a5a5a;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.7);
+        }
+
+        .power-remaining {
+            height: 100%;
+            background: #0a0a0a;
+            position: absolute;
+            right: 0;
+            width: 30%;
+            transition: width 0.5s;
+        }
+
+        .springtrap {
+            position: absolute;
+            right: 190px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 200px;
+            height: 280px;
+            background: 
+                linear-gradient(to bottom, #2a4a2a, #1a3a1a, #2a4a2a),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" opacity="0.1"><rect width="60" height="60" fill="none" stroke="%231a2a1a" stroke-width="2"/></svg>');
+            opacity: 0;
+            transition: all 0.5s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #8a0303;
+            border-radius: 8px;
+            box-shadow: 0 0 25px rgba(138, 3, 3, 0.7);
+        }
+
+        .springtrap.active {
+            opacity: 1;
+        }
+
+        .springtrap-img {
+            width: 100%;
+            height: 80%;
+            background: 
+                linear-gradient(45deg, #1a3a1a, #2a4a2a),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" opacity="0.1"><rect width="40" height="40" fill="none" stroke="%230a1a0a" stroke-width="1.5"/></svg>');
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8a0303;
+            font-size: 1.3rem;
+            text-align: center;
+            text-shadow: 0 0 8px #000;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 2px solid #5a1a1a;
+        }
+
+        .springtrap-img::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0, 0, 0, 0.1) 3px, rgba(0, 0, 0, 0.1) 6px),
+                repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(0, 0, 0, 0.1) 3px, rgba(0, 0, 0, 0.1) 6px);
+        }
+
+        .springtrap-name {
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 8px;
+            background: #1a2a1a;
+            width: 100%;
+            color: #aa5555;
+            text-shadow: 0 0 3px #000;
+        }
+
+        .jumpscare {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ff0000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            animation: scare 0.8s;
+        }
+
+        @keyframes scare {
+            0% { opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        .jumpscare-img {
+            width: 450px;
+            height: 550px;
+            background: 
+                linear-gradient(45deg, #2a4a2a, #1a3a1a),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" opacity="0.2"><rect width="60" height="60" fill="none" stroke="%23000" stroke-width="2"/></svg>');
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-size: 3.5rem;
+            font-weight: bold;
+            border: 15px solid #000;
+            text-align: center;
+            text-shadow: 0 0 15px #ff0000;
+        }
+
+        .jumpscare-subtitle {
+            font-size: 1.5rem;
+            margin-top: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background: linear-gradient(to top, #2a0a0a, #1a0505);
+            border-top: 2px solid #8a0303;
+            font-size: 0.9rem;
+            color: #d4a76a;
+            text-shadow: 0 0 3px #000;
+        }
+
+        /* Scrollbar styling */
+        .monitor-screen::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .monitor-screen::-webkit-scrollbar-track {
+            background: #001100;
+            border-left: 1px solid #008800;
+        }
+
+        .monitor-screen::-webkit-scrollbar-thumb {
+            background: #008800;
+            border-radius: 5px;
+        }
+
+        .monitor-screen::-webkit-scrollbar-thumb:hover {
+            background: #00aa00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>FIVE NIGHTS AT FREDDY'S 3</h1>
+            <div class="subtitle">FAZBEAR'S FRIGHT: THE HORROR ATTRACTION</div>
+        </div>
+        
+        <div class="game-area">
+            <div class="office-view">
+                <div class="office-top">
+                    <div class="doorway">OPEN HALLWAY<br><span style="font-size: 0.9rem;">NO DOOR</span></div>
+                    
+                    <div class="springtrap" id="springtrap">
+                        <div class="springtrap-img">
+                            SPRINGTRAP
+                        </div>
+                        <div class="springtrap-name">
+                            WILLIAM AFTON
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="office-bottom">
+                    <div class="desk-equipment">
+                        <div class="main-monitor">
+                            <div class="monitor-frame"></div>
+                            <div class="monitor-header">
+                                <div class="monitor-title">FAZBEAR'S FRIGHT SECURITY SYSTEM</div>
+                                <div class="monitor-status">ONLINE</div>
+                            </div>
+                            <div class="monitor-screen" id="log">
+> SYSTEM BOOTING...
+> FAZBEAR'S FRIGHT SECURITY v3.5
+> INITIALIZING CAMERA FEEDS...
+> WARNING: ANOMALY DETECTED IN ATTRACTION
+> DESIGNATION: "SPRINGTRAP"
+> PROCEED WITH EXTREME CAUTION
+> VENT SYSTEMS: NOMINAL
+> AUDIO SYSTEMS: ONLINE
+> POWER: 100%
+                            </div>
+                            <div class="monitor-controls">
+                                <button class="control-btn" id="cam-btn">CAMERAS</button>
+                                <button class="control-btn" id="vent-btn">CHECK VENTS</button>
+                                <button class="control-btn" id="reboot-btn">REBOOT SYSTEM</button>
+                            </div>
+                        </div>
+                        
+                        <div class="camera-feed">
+                            <div class="camera-frame"></div>
+                            <div class="camera-header">
+                                <div class="camera-title">CAMERA FEED</div>
+                                <div class="camera-status">OFFLINE</div>
+                            </div>
+                            <div class="camera-display" id="camera-feed">
+                                NO SIGNAL
+                                <div class="static"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="systems-panel">
+                <div class="panel-section">
+                    <div class="section-title">VENT SYSTEMS</div>
+                    <div class="vent-status">
+                        <div class="vent-item">
+                            <div class="vent-name">WEST VENT</div>
+                            <div class="vent-indicator" id="vent-west"></div>
+                        </div>
+                        <div class="vent-item">
+                            <div class="vent-name">EAST VENT</div>
+                            <div class="vent-indicator" id="vent-east"></div>
+                        </div>
+                        <div class="vent-item">
+                            <div class="vent-name">MAIN HALL VENT</div>
+                            <div class="vent-indicator" id="vent-main"></div>
+                        </div>
+                        <div class="vent-item">
+                            <div class="vent-name">OFFICE VENT</div>
+                            <div class="vent-indicator" id="vent-office"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="panel-section">
+                    <div class="section-title">AUDIO LURE SYSTEMS</div>
+                    <div class="audio-controls">
+                        <div class="audio-btn" id="audio-hall">HALLWAY LURE</div>
+                        <div class="audio-btn" id="audio-vent">VENT LURE</div>
+                        <div class="audio-btn" id="audio-main">MAIN ROOM LURE</div>
+                    </div>
+                </div>
+                
+                <div class="panel-section">
+                    <div class="section-title">SYSTEM STATUS</div>
+                    <div class="system-status">
+                        <div class="time-display">
+                            <div class="time" id="time-display">12:00 AM</div>
+                            <div>NIGHT 1</div>
+                        </div>
+                        <div class="power-level">
+                            <div class="power-label">
+                                <span>POWER</span>
+                                <span id="power-percent">100%</span>
+                            </div>
+                            <div class="power-bar">
+                                <div class="power-remaining" id="power-remaining"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            Survive until 6 AM | Fazbear's Fright: Horror Attraction | 30 years after Freddy Fazbear's Pizza closed
+        </div>
+    </div>
+    
+    <div class="jumpscare" id="jumpscare">
+        <div class="jumpscare-img">
+            GAME OVER
+            <div class="jumpscare-subtitle">YOU'VE BEEN CAUGHT BY SPRINGTRAP</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const springtrap = document.getElementById('springtrap');
+            const cameraFeed = document.getElementById('camera-feed');
+            const log = document.getElementById('log');
+            const camBtn = document.getElementById('cam-btn');
+            const ventBtn = document.getElementById('vent-btn');
+            const rebootBtn = document.getElementById('reboot-btn');
+            const audioHall = document.getElementById('audio-hall');
+            const audioVent = document.getElementById('audio-vent');
+            const audioMain = document.getElementById('audio-main');
+            const timeDisplay = document.getElementById('time-display');
+            const powerRemaining = document.getElementById('power-remaining');
+            const powerPercent = document.getElementById('power-percent');
+            const jumpscare = document.getElementById('jumpscare');
+            
+            // Vent indicators
+            const ventWest = document.getElementById('vent-west');
+            const ventEast = document.getElementById('vent-east');
+            const ventMain = document.getElementById('vent-main');
+            const ventOffice = document.getElementById('vent-office');
+            const vents = [ventWest, ventEast, ventMain, ventOffice];
+            const ventNames = ['WEST VENT', 'EAST VENT', 'MAIN HALL VENT', 'OFFICE VENT'];
+            
+            let gameActive = false;
+            let springtrapPosition = 'away';
+            let gameTimer;
+            let nightDuration = 120; // 2 minutes for demo
+            let currentTime = 0;
+            let powerLevel = 100;
+            let audioActive = false;
+            
+            // Add log entry function
+            function addLogEntry(entry) {
+                const timestamp = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                log.innerHTML += `[${timestamp}] ${entry}<br>`;
+                log.scrollTop = log.scrollHeight;
+            }
+            
+            // Update time display
+            function updateTimeDisplay() {
+                const hours = Math.floor(currentTime / 10);
+                const minutes = (currentTime % 10) * 6;
+                const timeString = `${12 + hours}:${minutes.toString().padStart(2, '0')} AM`;
+                timeDisplay.textContent = timeString;
+            }
+            
+            // Update power display
+            function updatePowerDisplay() {
+                powerRemaining.style.width = `${powerLevel}%`;
+                powerPercent.textContent = `${powerLevel}%`;
+                
+                // Change color based on power level
+                if (powerLevel > 50) {
+                    powerRemaining.style.background = '#0a0a0a';
+                } else if (powerLevel > 20) {
+                    powerRemaining.style.background = 'linear-gradient(to right, transparent, #aa5500)';
+                } else {
+                    powerRemaining.style.background = 'linear-gradient(to right, transparent, #aa0000)';
+                    powerRemaining.style.animation = 'pulse 1s infinite';
+                }
+            }
+            
+            // Start the night
+            function startNight() {
+                if (!gameActive) {
+                    gameActive = true;
+                    currentTime = 0;
+                    powerLevel = 100;
+                    updateTimeDisplay();
+                    updatePowerDisplay();
+                    
+                    addLogEntry('NIGHT SHIFT COMMENCING');
+                    addLogEntry('SPRINGTRAP IS ACTIVE - REMAIN VIGILANT');
+                    
+                    // Start game timer
+                    gameTimer = setInterval(function() {
+                        currentTime++;
+                        updateTimeDisplay();
+                        
+                        // Gradually decrease power
+                        if (currentTime % 5 === 0 && powerLevel > 0) {
+                            powerLevel--;
+                            updatePowerDisplay();
+                        }
+                        
+                        // Springtrap movement events
+                        if (currentTime === 20) {
+                            addLogEntry('MOVEMENT DETECTED IN WEST VENT');
+                            moveSpringtrap();
+                        } else if (currentTime === 40) {
+                            addLogEntry('SOUND DETECTED IN MAIN HALL');
+                            moveSpringtrapCloser();
+                        } else if (currentTime === 60) {
+                            addLogEntry('SPRINGTRAP IS APPROACHING OFFICE');
+                            moveSpringtrapClose();
+                        } else if (currentTime === 80) {
+                            addLogEntry('WARNING: SPRINGTRAP AT DOORWAY');
+                            moveSpringtrapAtDoor();
+                        }
+                        
+                        // Random vent breaches
+                        if (Math.random() < 0.04) {
+                            breachRandomVent();
+                        }
+                        
+                        // Check for game end
+                        if (currentTime >= nightDuration) {
+                            endGame(true);
+                        } else if (powerLevel <= 0) {
+                            addLogEntry('POWER FAILURE - SYSTEMS OFFLINE');
+                            endGame(false);
+                        }
+                    }, 1000);
+                }
+            }
+            
+            // Move Springtrap closer
+            function moveSpringtrap() {
+                if (gameActive) {
+                    springtrapPosition = 'near';
+                    springtrap.style.right = '400px';
+                    springtrap.classList.add('active');
+                }
+            }
+            
+            function moveSpringtrapCloser() {
+                if (gameActive) {
+                    springtrapPosition = 'closer';
+                    springtrap.style.right = '320px';
+                }
+            }
+            
+            function moveSpringtrapClose() {
+                if (gameActive) {
+                    springtrapPosition = 'close';
+                    springtrap.style.right = '240px';
+                    
+                    // Increased chance of jumpscare
+                    if (Math.random() > 0.6) {
+                        setTimeout(function() {
+                            if (gameActive && springtrapPosition === 'close') {
+                                triggerJumpscare();
+                            }
+                        }, 2000);
+                    }
+                }
+            }
+            
+            function moveSpringtrapAtDoor() {
+                if (gameActive) {
+                    springtrapPosition = 'door';
+                    springtrap.style.right = '190px';
+                    
+                    // High chance of jumpscare
+                    if (Math.random() > 0.3) {
+                        setTimeout(function() {
+                            if (gameActive && springtrapPosition === 'door') {
+                                triggerJumpscare();
+                            }
+                        }, 1500);
+                    }
+                }
+            }
+            
+            // Breach a random vent
+            function breachRandomVent() {
+                if (!gameActive) return;
+                
+                const randomIndex = Math.floor(Math.random() * vents.length);
+                
+                vents[randomIndex].classList.add('breached');
+                addLogEntry(`BREACH DETECTED: ${ventNames[randomIndex]}`);
+                
+                // Fix vent after some time
+                setTimeout(() => {
+                    if (gameActive) {
+                        vents[randomIndex].classList.remove('breached');
+                        addLogEntry(`${ventNames[randomIndex]} SECURED`);
+                    }
+                }, 10000);
+            }
+            
+            // Trigger jumpscare
+            function triggerJumpscare() {
+                if (!gameActive) return;
+                
+                gameActive = false;
+                clearInterval(gameTimer);
+                jumpscare.style.display = 'flex';
+                
+                setTimeout(function() {
+                    jumpscare.style.display = 'none';
+                    addLogEntry('SECURITY BREACH - CONTACT LOST');
+                }, 3000);
+            }
+            
+            // End game function
+            function endGame(success) {
+                gameActive = false;
+                clearInterval(gameTimer);
+                
+                if (success) {
+                    addLogEntry('6:00 AM - SHIFT COMPLETE');
+                    addLogEntry('SURVIVAL BONUS: $120.50');
+                } else {
+                    addLogEntry('SYSTEM FAILURE - NIGHT TERMINATED');
+                }
+            }
+            
+            // Camera button
+            camBtn.addEventListener('click', function() {
+                if (gameActive) {
+                    cameraFeed.innerHTML = 'CAM 01: MAIN HALL<br>--- NO ACTIVITY ---<div class="static"></div>';
+                    setTimeout(function() {
+                        if (gameActive) {
+                            cameraFeed.innerHTML = 'NO SIGNAL<div class="static"></div>';
+                        }
+                    }, 3000);
+                }
+            });
+            
+            // Vent check button
+            ventBtn.addEventListener('click', function() {
+                if (gameActive) {
+                    addLogEntry('VENT SYSTEMS: SCANNING...');
+                    
+                    // Fix any breached vents
+                    const breachedVents = document.querySelectorAll('.vent-indicator.breached');
+                    breachedVents.forEach(vent => {
+                        vent.classList.remove('breached');
+                    });
+                    
+                    addLogEntry('VENT SYSTEMS: SECURED');
+                    
+                    // Small chance to trigger Springtrap movement
+                    if (springtrapPosition === 'away' && Math.random() > 0.7) {
+                        setTimeout(function() {
+                            if (gameActive) {
+                                addLogEntry('AUDIO DETECTED IN VENT SYSTEM');
+                                moveSpringtrap();
+                            }
+                        }, 1000);
+                    }
+                }
+            });
+            
+            // Reboot system button
+            rebootBtn.addEventListener('click', function() {
+                if (gameActive) {
+                    addLogEntry('REBOOTING SECURITY SYSTEMS...');
+                    setTimeout(function() {
+                        if (gameActive) {
+                            addLogEntry('SYSTEMS RESTORED - ALL CLEAR');
+                            // Small chance to reset Springtrap position
+                            if (Math.random() > 0.5 && springtrapPosition !== 'away') {
+                                springtrapPosition = 'away';
+                                springtrap.classList.remove('active');
+                                addLogEntry('SPRINGTRAP MOVEMENT: RETREATING');
+                            }
+                        }
+                    }, 2000);
+                }
+            });
+            
+            // Audio lure buttons
+            function setupAudioButton(button, location) {
+                button.addEventListener('click', function() {
+                    if (gameActive && !audioActive) {
+                        audioActive = true;
+                        button.classList.add('active');
+                        addLogEntry(`${location} AUDIO LURE ACTIVATED`);
+                        
+                        // Chance to lure Springtrap away
+                        let successChance = 0.4;
+                        if (location === 'MAIN ROOM') successChance = 0.5;
+                        if (location === 'VENT') successChance = 0.3;
+                        
+                        if (springtrapPosition !== 'away' && Math.random() > successChance) {
+                            setTimeout(function() {
+                                if (gameActive) {
+                                    addLogEntry('SPRINGTRAP MOVEMENT DETECTED - RETREATING');
+                                    springtrapPosition = 'away';
+                                    springtrap.classList.remove('active');
+                                }
+                            }, 1000);
+                        }
+                        
+                        setTimeout(() => {
+                            audioActive = false;
+                            button.classList.remove('active');
+                        }, 5000);
+                    }
+                });
+            }
+            
+            setupAudioButton(audioHall, 'HALLWAY');
+            setupAudioButton(audioVent, 'VENT');
+            setupAudioButton(audioMain, 'MAIN ROOM');
+            
+            // Start the game automatically after a brief delay
+            setTimeout(startNight, 2000);
+        });
+    </script>
+</body>
+</html>
